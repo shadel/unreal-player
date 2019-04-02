@@ -1,0 +1,56 @@
+{
+  "name": "ureal-player",
+  "version": "0.0.8",
+  "description": "A library which wraps the core powerbi-client library by providing components to easily embed within your react applications.",
+  "main": "dist/index.js",
+  "typings": "dist/src/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && webpack",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc",
+    "webpack": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shadel/PowerBI-React.git"
+  },
+  "keywords": [
+    "microsoft",
+    "powerbi",
+    "react",
+    "javascript",
+    "embedded",
+    "reports",
+    "bi",
+    "business",
+    "intelligence"
+  ],
+  "files": [
+    "dist"
+  ],
+  "author": "Microsoft Power BI Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shadel/PowerBI-React/issues"
+  },
+  "homepage": "https://github.com/shadel/PowerBI-React#readme",
+  "dependencies": {
+    "@date-io/moment": "^1.1.0",
+    "@material-ui/core": "^3.9.2",
+    "@material-ui/icons": "^3.0.2",
+    "history": "^4.7.2",
+    "material-ui-pickers": "^2.2.4",
+    "webpack": "^4.29.6",
+    "webrtc-adapter": "^7.2.1",
+    "ts-loader": "^5.3.3"
+  },
+  "devDependencies": {
+    "@types/history": "^4.7.2",
+    "@types/react": "^16.8.6",
+    "@types/react-dom": "^16.8.2",
+    "@types/react-redux": "^7.0.1",
+    "typescript": "^3.3.3333",
+    "webpack-cli": "^3.2.3"
+  },
+  "peerDependencies": {}
+}
