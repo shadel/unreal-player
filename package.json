@@ -1,6 +1,6 @@
 {
   "name": "ureal-player",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A library which wraps the core powerbi-client library by providing components to easily embed within your react applications.",
   "main": "dist/index.js",
   "typings": "dist/src/index.d.ts",
@@ -31,9 +31,9 @@
   "author": "Microsoft Power BI Team",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/shadel/PowerBI-React/issues"
+    "url": "https://github.com/shadel/unreal-player/issues"
   },
-  "homepage": "https://github.com/shadel/PowerBI-React#readme",
+  "homepage": "https://github.com/shadel/unreal-player#readme",
   "dependencies": {
     "webpack": "^4.29.6",
     "webrtc-adapter": "^7.2.1",
