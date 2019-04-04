@@ -1,8 +1,8 @@
 {
   "name": "ureal-player",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "description": "A library which wraps the core powerbi-client library by providing components to easily embed within your react applications.",
-  "main": "dist/index.js",
+  "main": "dist/ureal-player.js",
   "typings": "dist/src/index.d.ts",
   "scripts": {
     "build": "rm -rf dist && webpack",

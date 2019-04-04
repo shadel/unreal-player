@@ -123,7 +123,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function UnrealWebRTCPlayer(remoteVideo, alias, sid, ipAddress, port, useSecureWebsocket, useSingleWebRTCPort, WebRTCProtocol) {
+var UnrealWebRTCPlayer = function (remoteVideo, alias, sid, ipAddress, port, useSecureWebsocket, useSingleWebRTCPort, WebRTCProtocol) {
     var pc = null;
     var ws = null;
     var state = -1;
@@ -360,8 +360,7 @@ function UnrealWebRTCPlayer(remoteVideo, alias, sid, ipAddress, port, useSecureW
         return newLine.join(" ");
     }
     ;
-}
-;
+};
 /* harmony default export */ __webpack_exports__["default"] = (UnrealWebRTCPlayer);
 
 

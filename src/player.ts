@@ -1,14 +1,18 @@
 
+interface UnrealWebRTCPlayer {
+    Play: () => void;
+    Stop: () => void;
+}
 
-function UnrealWebRTCPlayer(
+const UnrealWebRTCPlayer = function(this: UnrealWebRTCPlayer,
     remoteVideo: HTMLVideoElement, 
     alias: string, 
     sid: string, 
     ipAddress: string, 
     port: string, 
-    useSecureWebsocket: string, 
-    useSingleWebRTCPort?: string, 
-    WebRTCProtocol?: string) {
+    useSecureWebsocket: boolean, 
+    useSingleWebRTCPort: boolean, 
+    WebRTCProtocol: string) {
 
     let pc:RTCPeerConnection = null;
     var ws:WebSocket = null;
@@ -298,6 +302,14 @@ function UnrealWebRTCPlayer(
         }
         return newLine.join(" ");
     };
-};
+} as any as { new (remoteVideo: HTMLVideoElement, 
+    alias: string, 
+    sid: string, 
+    ipAddress: string, 
+    port: string, 
+    useSecureWebsocket: boolean, 
+    useSingleWebRTCPort: boolean, 
+    WebRTCProtocol: string): UnrealWebRTCPlayer}
+
 
 export default UnrealWebRTCPlayer;
