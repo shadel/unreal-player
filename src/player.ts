@@ -32,7 +32,7 @@ const UnrealWebRTCPlayer = function(this: UnrealWebRTCPlayer, options: UPlayerOp
         useSingleWebRTCPort, 
         WebRTCProtocol,
         onError
-    } = options;
+    } = {...options, onError: options.onError?options.onError: ()=>{}};
 
     let pc:RTCPeerConnection = null;
     var ws:WebSocket = null;

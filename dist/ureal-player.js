@@ -124,6 +124,17 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "U_ERROR_TYPE", function() { return U_ERROR_TYPE; });
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var U_ERROR_TYPE;
 (function (U_ERROR_TYPE) {
     U_ERROR_TYPE[U_ERROR_TYPE["CREATE_SESSION_DESCRIPTION"] = 0] = "CREATE_SESSION_DESCRIPTION";
@@ -133,7 +144,7 @@ var U_ERROR_TYPE;
     U_ERROR_TYPE[U_ERROR_TYPE["ERROR_FROM_WEBSOCKET"] = 4] = "ERROR_FROM_WEBSOCKET";
 })(U_ERROR_TYPE || (U_ERROR_TYPE = {}));
 var UnrealWebRTCPlayer = function (options) {
-    var remoteVideo = options.remoteVideo, alias = options.alias, sid = options.sid, ipAddress = options.ipAddress, port = options.port, useSecureWebsocket = options.useSecureWebsocket, useSingleWebRTCPort = options.useSingleWebRTCPort, WebRTCProtocol = options.WebRTCProtocol, onError = options.onError;
+    var _a = __assign({}, options, { onError: options.onError ? options.onError : function () { } }), remoteVideo = _a.remoteVideo, alias = _a.alias, sid = _a.sid, ipAddress = _a.ipAddress, port = _a.port, useSecureWebsocket = _a.useSecureWebsocket, useSingleWebRTCPort = _a.useSingleWebRTCPort, WebRTCProtocol = _a.WebRTCProtocol, onError = _a.onError;
     var pc = null;
     var ws = null;
     var state = -1;
