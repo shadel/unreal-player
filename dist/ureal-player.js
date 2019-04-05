@@ -118,12 +118,22 @@ __webpack_require__.r(__webpack_exports__);
 /*!***********************!*\
   !*** ./src/player.ts ***!
   \***********************/
-/*! exports provided: default */
+/*! exports provided: U_ERROR_TYPE, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var UnrealWebRTCPlayer = function (remoteVideo, alias, sid, ipAddress, port, useSecureWebsocket, useSingleWebRTCPort, WebRTCProtocol) {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "U_ERROR_TYPE", function() { return U_ERROR_TYPE; });
+var U_ERROR_TYPE;
+(function (U_ERROR_TYPE) {
+    U_ERROR_TYPE[U_ERROR_TYPE["CREATE_SESSION_DESCRIPTION"] = 0] = "CREATE_SESSION_DESCRIPTION";
+    U_ERROR_TYPE[U_ERROR_TYPE["CONNECTION_FAILED"] = 1] = "CONNECTION_FAILED";
+    U_ERROR_TYPE[U_ERROR_TYPE["CREATE_WEBSOCKET"] = 2] = "CREATE_WEBSOCKET";
+    U_ERROR_TYPE[U_ERROR_TYPE["CONNECT_UNREAL_FAILED"] = 3] = "CONNECT_UNREAL_FAILED";
+    U_ERROR_TYPE[U_ERROR_TYPE["ERROR_FROM_WEBSOCKET"] = 4] = "ERROR_FROM_WEBSOCKET";
+})(U_ERROR_TYPE || (U_ERROR_TYPE = {}));
+var UnrealWebRTCPlayer = function (options) {
+    var remoteVideo = options.remoteVideo, alias = options.alias, sid = options.sid, ipAddress = options.ipAddress, port = options.port, useSecureWebsocket = options.useSecureWebsocket, useSingleWebRTCPort = options.useSingleWebRTCPort, WebRTCProtocol = options.WebRTCProtocol, onError = options.onError;
     var pc = null;
     var ws = null;
     var state = -1;
@@ -172,7 +182,7 @@ var UnrealWebRTCPlayer = function (remoteVideo, alias, sid, ipAddress, port, use
     }
     function onCreateSessionDescriptionError(error) {
         Terminate();
-        alert("Failed to create session description: " + error.toString());
+        onError(U_ERROR_TYPE.CREATE_SESSION_DESCRIPTION, error);
     }
     function onCreateOfferSuccess(desc) {
         var audioRate = 8000;
@@ -203,7 +213,7 @@ var UnrealWebRTCPlayer = function (remoteVideo, alias, sid, ipAddress, port, use
     function onConnStateChange(event) {
         if (pc.connectionState === "failed") {
             Terminate();
-            alert("Connection failed; playback stopped");
+            onError(U_ERROR_TYPE.CONNECTION_FAILED);
         }
     }
     function DoSignaling() {
@@ -217,7 +227,7 @@ var UnrealWebRTCPlayer = function (remoteVideo, alias, sid, ipAddress, port, use
         }
         catch (error) {
             Terminate();
-            alert("Error creating websocket: " + error);
+            onError(U_ERROR_TYPE.CREATE_WEBSOCKET, error);
         }
         ws.onmessage = function (evt) {
             var response = evt.data;
@@ -227,7 +237,7 @@ var UnrealWebRTCPlayer = function (remoteVideo, alias, sid, ipAddress, port, use
                 state = 1;
                 if (strArr.length == 1) {
                     Terminate();
-                    alert(response);
+                    onError(U_ERROR_TYPE.ERROR_FROM_WEBSOCKET, response);
                 }
                 else {
                     var servers = null;
@@ -250,7 +260,7 @@ var UnrealWebRTCPlayer = function (remoteVideo, alias, sid, ipAddress, port, use
             else {
                 if (strArr.length == 1) {
                     Terminate();
-                    alert(response);
+                    onError(U_ERROR_TYPE.ERROR_FROM_WEBSOCKET, response);
                 }
                 else {
                     var serverSDP = JSON.parse(strArr[0]);
@@ -267,7 +277,7 @@ var UnrealWebRTCPlayer = function (remoteVideo, alias, sid, ipAddress, port, use
         ws.onerror = function (evt) {
             if (!connOK) {
                 Terminate();
-                alert("Error connecting to Unreal Media Server");
+                onError(U_ERROR_TYPE.CONNECT_UNREAL_FAILED, evt);
             }
         };
     }

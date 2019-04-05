@@ -4,7 +4,7 @@ interface UnrealWebRTCPlayer {
     Stop: () => void;
 }
 
-const UnrealWebRTCPlayer = function(this: UnrealWebRTCPlayer,
+export interface UPlayerOptions {
     remoteVideo: HTMLVideoElement, 
     alias: string, 
     sid: string, 
@@ -12,7 +12,27 @@ const UnrealWebRTCPlayer = function(this: UnrealWebRTCPlayer,
     port: string, 
     useSecureWebsocket: boolean, 
     useSingleWebRTCPort: boolean, 
-    WebRTCProtocol: string) {
+    WebRTCProtocol: string,
+    onError?:(type: U_ERROR_TYPE, err?: any) => void
+}
+
+export enum U_ERROR_TYPE {
+    CREATE_SESSION_DESCRIPTION, CONNECTION_FAILED, CREATE_WEBSOCKET, CONNECT_UNREAL_FAILED, ERROR_FROM_WEBSOCKET
+}
+
+const UnrealWebRTCPlayer = function(this: UnrealWebRTCPlayer, options: UPlayerOptions) {
+
+    const {
+        remoteVideo, 
+        alias, 
+        sid, 
+        ipAddress, 
+        port, 
+        useSecureWebsocket, 
+        useSingleWebRTCPort, 
+        WebRTCProtocol,
+        onError
+    } = options;
 
     let pc:RTCPeerConnection = null;
     var ws:WebSocket = null;
@@ -74,7 +94,7 @@ const UnrealWebRTCPlayer = function(this: UnrealWebRTCPlayer,
 
     function onCreateSessionDescriptionError(error: any) {
         Terminate();
-        alert("Failed to create session description: " + error.toString());
+        onError(U_ERROR_TYPE.CREATE_SESSION_DESCRIPTION, error);
     }
 
     function onCreateOfferSuccess(desc: RTCSessionDescriptionInit) {
@@ -115,7 +135,7 @@ const UnrealWebRTCPlayer = function(this: UnrealWebRTCPlayer,
     function onConnStateChange(event: Event) {
         if (pc.connectionState === "failed") {
             Terminate();
-            alert("Connection failed; playback stopped");
+            onError(U_ERROR_TYPE.CONNECTION_FAILED);
         }
     }
 
@@ -131,7 +151,7 @@ const UnrealWebRTCPlayer = function(this: UnrealWebRTCPlayer,
         }
         catch (error) {
             Terminate();
-            alert("Error creating websocket: " + error);
+            onError(U_ERROR_TYPE.CREATE_WEBSOCKET, error);
         }
 
         ws.onmessage = function(evt) {
@@ -145,7 +165,7 @@ const UnrealWebRTCPlayer = function(this: UnrealWebRTCPlayer,
 
                 if (strArr.length == 1) {
                     Terminate();
-                    alert(response);
+                    onError(U_ERROR_TYPE.ERROR_FROM_WEBSOCKET, response);
                 }
                 else {
                     var servers = null;
@@ -175,7 +195,7 @@ const UnrealWebRTCPlayer = function(this: UnrealWebRTCPlayer,
             else {
                 if (strArr.length == 1) {
                     Terminate();
-                    alert(response);
+                    onError(U_ERROR_TYPE.ERROR_FROM_WEBSOCKET, response);
                 }
                 else {
                     var serverSDP = JSON.parse(strArr[0]);
@@ -196,7 +216,7 @@ const UnrealWebRTCPlayer = function(this: UnrealWebRTCPlayer,
         ws.onerror = function(evt) {
             if (!connOK) {
                 Terminate();
-                alert("Error connecting to Unreal Media Server");
+                onError(U_ERROR_TYPE.CONNECT_UNREAL_FAILED, evt);
             }
         }
     }
@@ -302,14 +322,6 @@ const UnrealWebRTCPlayer = function(this: UnrealWebRTCPlayer,
         }
         return newLine.join(" ");
     };
-} as any as { new (remoteVideo: HTMLVideoElement, 
-    alias: string, 
-    sid: string, 
-    ipAddress: string, 
-    port: string, 
-    useSecureWebsocket: boolean, 
-    useSingleWebRTCPort: boolean, 
-    WebRTCProtocol: string): UnrealWebRTCPlayer}
-
+} as any as { new (options: UPlayerOptions): UnrealWebRTCPlayer}
 
 export default UnrealWebRTCPlayer;
